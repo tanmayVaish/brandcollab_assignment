@@ -5,7 +5,32 @@ import CircularProgress from '@mui/material/CircularProgress'
 import AddIcon from '@mui/icons-material/Add'
 import { TextField } from '@mui/material'
 
-const mockData = {
+// Interface for Profile data
+interface Profile {
+  name: string
+  current_role: string
+  current_company: string
+  location: string
+  skills: string[]
+  about: string
+  collaborations: string[]
+  products: Product[]
+  testimonials: Testimonial[]
+}
+
+// Interface for Product data
+interface Product {
+  name: string
+  description: string
+}
+
+// Interface for Testimonial data
+interface Testimonial {
+  name: string
+  review: string
+}
+
+const mockData: Profile = {
   name: 'Adrian Brewer',
   current_role: 'Engineer',
   current_company: 'BB Agency -Industry',
@@ -32,14 +57,12 @@ const mockData = {
 }
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  // take mock as promise
-  const [profile, setProfile] = useState(null)
+  // Profile state with default value of null
+  const [profile, setProfile] = useState<Profile | null>(null)
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const response = await new Promise((resolve, reject) => {
+      const response = await new Promise<Profile>((resolve) => {
         setTimeout(() => {
           resolve(mockData)
         }, 1000)
@@ -139,7 +162,7 @@ function App() {
           </div>
         </div>
 
-        {profile?.products.map((product, index) => {
+        {profile?.products.map((product) => {
           return (
             <div className="flex flex-col w-full gap-2">
               <div className="flex w-full">
